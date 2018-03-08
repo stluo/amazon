@@ -1,0 +1,47 @@
+package amazon;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Item {
+	private int rank;
+	private String name;
+	private String asn;
+	private double price;
+	private double rating;
+	private double ratingNum;
+	
+	public Item(int index, Document query) {
+		rank = index;
+		asn = GetAsn(query);
+		name = GetName(query);
+	};
+
+	
+	private String GetName(Element query) {
+		
+		Elements children = query.children();
+//		Elements temp = children.
+//		
+//		
+//		System.out.println(children.);
+	
+		
+		
+		
+		return null;
+	}
+
+	private String GetAsn(Element query) {
+		//TODO error check, return a default value
+		Elements result = doc.select("#result_0");
+		//Element result = temp.first();
+		
+		
+		String att = result.first().attr("data-asin");
+		System.out.println("att");
+		return att;
+	};
+
+}

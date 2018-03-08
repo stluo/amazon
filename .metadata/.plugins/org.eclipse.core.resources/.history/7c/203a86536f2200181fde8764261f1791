@@ -1,0 +1,122 @@
+package amazon;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Item {
+	private int rank;
+	private String name;
+	private String asn;
+	private double price;
+	private double rating;
+	private double ratingNum;
+	
+	public Item(int index, Element query) {
+		
+		rank = index;
+		asn = GetAsn(query);
+		name = GetName(query);
+		price = GetPrice(query);
+		rating = GetRating(query);
+		ratingNum = GetRatingNum(query);
+	};
+
+	
+	private double GetRatingNum(Element query) {
+		//TODO error check, return default value
+		Elements result = query.getElementsByClass("a-size-small a-link-normal a-text-normal");
+		String att = result.first().text();
+		
+		
+		int ratingNum;
+		try {
+			ratingNum = Integer.parseInt(att);
+		}
+		catch (Exception e) {
+			att = result.get(1).text();
+			ratingNum = Integer.parseInt(att);
+		}
+		
+		System.out.println(ratingNum);
+		return ratingNum;
+	}
+
+
+	private double GetRating(Element query) {
+		//TODO error check, return default value
+		Elements result = query.getElementsByClass("a-icon-alt");
+		String att = result.first().text();
+		
+		att = att.split("\\s+")[0];
+		
+		if (att.equalsIgnoreCase("prime")) {
+			att = result.get(1).text();
+			att = att.split("\\s+")[0];
+		}
+
+        double rating = Double.parseDouble(att);
+		
+		System.out.println(rating);
+		return rating;
+	}
+
+
+	private double GetPrice(Element query) {
+		//TODO error check, return default value
+				
+
+//		Elements t = null;
+//		if (query.hasClass("a-size-base a-color-base")) {
+//			t = query.getElementsByClass("a-size-base a-color-base");
+//			System.out.println(t);
+//		}
+//		else if (query.hasClass("a-offscreen")){
+//			t = query.getElementsByClass("a-offscreen");
+//			System.out.println(t);
+//		}
+//		
+//		
+//
+//		
+//		
+//		
+//		
+//		
+		Elements t = null;
+
+		t = query.getElementsByClass("a-size-base a-color-base");
+		System.out.println(t);
+	
+		String att = t.first().text();
+		
+		System.out.println(att);
+		
+		
+		//att = att.substring(1);
+		//double price = Double.parseDouble(att);
+	
+		return 0;
+	}
+
+
+	private String GetName(Element query) {
+		//TODO error check, return default value
+		Elements result = query.getElementsByClass("a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal");
+		String att = result.first().attr("title");
+	
+		System.out.println(att);
+		return att;
+	}
+
+	private String GetAsn(Element query) {
+		//TODO error check, return a default value
+		String att = query.attr("data-asin");
+
+		System.out.println(att);
+		return att;
+	};
+
+}
+
+

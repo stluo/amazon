@@ -1,0 +1,57 @@
+package amazon;
+import java.io.IOException;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class scraper {
+	
+	final static String url = "https://www.amazon.com/s/ref=lp_172659_st?rh=n%3A172282%2Cn%3A%21493964%2Cn%3A1266092011%2Cn%3A172659&qid=1520461163&sort=review-rank";
+
+	public static void main(String[] args) {
+		
+		Connection.Response response = null;
+		
+		try {
+			response = Jsoup.connect(url).followRedirects(true).execute();
+		} catch (IOException e) {
+			//connection failed
+			e.printStackTrace();
+		}
+		
+		if (response != null && response.statusCode() == 200) {
+			
+			Document doc = null;
+			
+			try {
+				doc = response.parse();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			Elements result = doc.select("#result_3");
+			
+			
+			
+			//Elements s = docs.getElementsByClass("a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal");
+			
+//			Elements s = result.first().getElementsByClass("a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal");
+//			
+//			String att = s.first().attr("title");
+//			System.out.println(att);		
+
+			
+			Item t = new Item(1, result.first());
+			
+
+			
+			//System.out.println(result);
+		}
+		
+	}
+
+}

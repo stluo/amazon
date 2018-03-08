@@ -1,0 +1,85 @@
+package amazon;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Item {
+	private int rank;
+	private String name;
+	private String asn;
+	private double price;
+	private double rating;
+	private double ratingNum;
+	
+	public Item(int index, Element query) {
+		
+		rank = index;
+		asn = GetAsn(query);
+		name = GetName(query);
+		price = GetPrice(query);
+		rating = GetRating(query);
+	};
+
+	
+	private double GetRating(Element query) {
+		// TODO Auto-generated method stub
+		Elements s = query.getElementsByClass("a-icon-alt");
+		String att = s.first().text();
+		
+		//System.out.println(att);
+		return 0;
+	}
+
+
+	private double GetPrice(Element query) {
+		//TODO error check, return default value
+		Elements t;
+		
+		Elements s = query.getElementsByClass("s-comparisonView-details aok-float-left");
+		
+		int count = 0;
+		int maxTries = 3;
+		while(true) {
+		    try {
+				if (s.first().hasClass("a-size-base a-color-base")) {
+					t = s.first().getElementsByClass("a-size-base a-color-base");
+				}
+				else {
+					t = s.first().getElementsByClass("a-offscreen");
+				}
+				
+				
+		    } catch (Exception e) {
+		        // try 3 times before giving up
+		        if (++count == maxTries) throw e;
+		    }
+		}
+		
+		String att = t.first().text();
+		System.out.println(att);
+		att = att.substring(1);
+		double price = Double.parseDouble(att);
+	
+		return double;
+	}
+
+
+	private String GetName(Element query) {
+		//TODO error check, return default value
+		Elements result = query.getElementsByClass("a-link-normal s-access-detail-page  s-color-twister-title-link a-text-normal");
+		String att = result.first().attr("title");
+	
+		System.out.println(att);
+		return att;
+	}
+
+	private String GetAsn(Element query) {
+		//TODO error check, return a default value
+		String att = query.attr("data-asin");
+
+		System.out.println(att);
+		return att;
+	};
+
+}
